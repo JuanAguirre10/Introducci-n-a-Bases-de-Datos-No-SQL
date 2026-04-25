@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eliminar Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f4f0;--white:#fff;--ink:#111110;--muted:#6b6a66;--accent:#2563eb;--border:#e4e3de;--danger:#dc2626;--danger-light:#fef2f2;--shadow:0 2px 12px rgba(0,0,0,0.08)}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-brand{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .wrap{max-width:480px;margin:0 auto;padding:2.5rem 2rem 4rem;animation:fadeUp 0.4s ease both}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);margin-bottom:1.5rem}
+    .breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ink)}
+    .breadcrumb i{font-size:0.9rem}
+    .card{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
+    .banner{background:var(--danger-light);border-bottom:1px solid #fecaca;padding:1.5rem;display:flex;align-items:center;gap:12px}
+    .banner-icon{width:44px;height:44px;border-radius:12px;background:var(--danger);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .banner-icon i{font-size:1.3rem;color:#fff}
+    .banner-text h3{font-family:'Outfit',sans-serif;font-size:1rem;font-weight:700;color:var(--danger)}
+    .banner-text p{font-size:0.8rem;color:#991b1b;margin-top:2px}
+    .body{padding:1.5rem}
+    .post-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.5rem}
+    .post-box .pt{font-family:'Outfit',sans-serif;font-weight:700;font-size:0.95rem;margin-bottom:4px}
+    .post-box .pc{font-size:0.82rem;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .post-box .pm{font-size:0.75rem;color:var(--muted);margin-top:8px;display:flex;gap:10px}
+    .warn{font-size:0.82rem;color:var(--muted);line-height:1.6;margin-bottom:1.5rem}
+    .warn strong{color:var(--ink)}
+    .actions{display:flex;gap:10px}
+    .btn{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;font-family:'Outfit',sans-serif;text-decoration:none;flex:1}
+    .btn.secondary{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn.secondary:hover{border-color:var(--ink);color:var(--ink)}
+    .btn.danger{background:var(--danger);color:#fff}.btn.danger:hover{background:#b91c1c;transform:translateY(-1px);box-shadow:0 4px 12px rgba(220,38,38,0.3)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="/"><span class="dot"></span>Social Media</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="/posts">Posts</a><i class="material-icons-round">chevron_right</i>
+      <span>Eliminar</span>
+    </div>
+
+    <div class="card">
+      <div class="banner">
+        <div class="banner-icon"><i class="material-icons-round">delete_forever</i></div>
+        <div class="banner-text">
+          <h3>Eliminar publicación</h3>
+          <p>Esta acción no se puede deshacer</p>
+        </div>
+      </div>
+      <div class="body">
+        <div class="post-box">
+          <div class="pt"><%= post.title %></div>
+          <div class="pc"><%= post.content %></div>
+          <div class="pm">
+            <span>👤 <%= post.user ? post.user.name + ' ' + post.user.lastName : 'Desconocido' %></span>
+            <span>📅 <%= post.createdAt ? new Date(post.createdAt).toLocaleDateString('es-PE') : '' %></span>
+          </div>
+        </div>
+        <p class="warn">¿Estás seguro de que deseas eliminar este post? <strong>Esta acción es permanente</strong> y no podrás recuperar la publicación.</p>
+        <div class="actions">
+          <a href="/posts" class="btn secondary"><i class="material-icons-round">arrow_back</i> Cancelar</a>
+          <form action="/posts/delete/<%= post._id %>" method="POST" style="flex:1;display:flex">
+            <button type="submit" class="btn danger" style="width:100%">
+              <i class="material-icons-round">delete_forever</i> Sí, eliminar
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

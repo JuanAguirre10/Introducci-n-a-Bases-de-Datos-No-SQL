@@ -1,24 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Social Media - Home</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f5f4f0;--white:#ffffff;--ink:#111110;--muted:#6b6a66;
+      --accent:#2563eb;--accent-light:#eff4ff;--border:#e4e3de;
+      --shadow:0 2px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+    }
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+    nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 2.5rem;height:60px;
+      background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+    }
+    .nav-brand{
+      font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;
+      color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .btn-pill{
+      display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:100px;
+      font-size:0.82rem;font-weight:500;cursor:pointer;text-decoration:none;
+      border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;
+    }
+    .btn-pill.primary{background:var(--accent);color:#fff}
+    .btn-pill.primary:hover{background:#1d4ed8;transform:translateY(-1px)}
+    .hero{max-width:680px;margin:0 auto;padding:5rem 2rem 3rem;text-align:center}
+    .hero-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      background:var(--accent-light);color:var(--accent);
+      padding:5px 14px;border-radius:100px;font-size:0.78rem;font-weight:600;
+      margin-bottom:1.5rem;animation:fadeDown 0.5s ease both;
+    }
+    .hero-title{
+      font-family:'Outfit',sans-serif;font-weight:800;
+      font-size:clamp(2.8rem,6vw,4rem);line-height:1.05;letter-spacing:-0.04em;
+      margin-bottom:1.2rem;animation:fadeUp 0.5s ease 0.1s both;
+    }
+    .hero-title .blue{color:var(--accent)}
+    .hero-sub{
+      font-size:1rem;color:var(--muted);line-height:1.7;
+      max-width:440px;margin:0 auto 2.5rem;
+      animation:fadeUp 0.5s ease 0.2s both;
+    }
+    .hero-cta{
+      display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+      animation:fadeUp 0.5s ease 0.3s both;
+    }
+    .btn-hero{
+      display:flex;align-items:center;gap:8px;padding:13px 26px;
+      border-radius:14px;font-size:0.92rem;font-weight:600;
+      cursor:pointer;text-decoration:none;border:none;transition:all 0.25s;
+      font-family:'Outfit',sans-serif;
+    }
+    .btn-hero.primary{background:var(--ink);color:#fff;box-shadow:0 4px 16px rgba(0,0,0,0.15)}
+    .btn-hero.primary:hover{background:#222;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.2)}
+    .btn-hero.secondary{background:var(--white);color:var(--ink);border:1px solid var(--border)}
+    .btn-hero.secondary:hover{border-color:var(--ink);transform:translateY(-2px)}
+    .btn-hero i{font-size:1.1rem}
+    .stats-row{
+      display:flex;justify-content:center;gap:2px;
+      margin:3rem auto 0;max-width:460px;
+      background:var(--white);border:1px solid var(--border);
+      border-radius:16px;overflow:hidden;box-shadow:var(--shadow);
+      animation:fadeUp 0.5s ease 0.4s both;
+    }
+    .stat{flex:1;padding:1.2rem 1rem;text-align:center;border-right:1px solid var(--border)}
+    .stat:last-child{border-right:none}
+    .stat-n{font-family:'Outfit',sans-serif;font-size:1.6rem;font-weight:800}
+    .stat-l{font-size:0.73rem;color:var(--muted);margin-top:2px}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+  </style>
 </head>
-<body class="container center-align" style="margin-top: 80px;">
+<body>
+  <nav>
+    <a class="nav-brand" href="/"><span class="dot"></span>Social Media</a>
+    <a href="/posts/" class="btn-pill primary">
+      <i class="material-icons-round" style="font-size:1rem">grid_view</i> Ver posts
+    </a>
+  </nav>
 
-  <h2 class="blue-text text-darken-2">Bienvenido a Social Media 🚀</h2>
-  <p class="flow-text">Conéctate, comparte y explora publicaciones</p>
-
-  <div class="row" style="margin-top: 50px;">
-    <div class="col s12 m12">
-      <a href="/posts/" class="btn-large waves-effect waves-light blue darken-2">
-        <i class="material-icons left">image</i> Ver Pots
+  <div class="hero">
+    <div class="hero-badge">
+      <i class="material-icons-round" style="font-size:0.9rem">auto_awesome</i>
+      Tu red social personal
+    </div>
+    <h1 class="hero-title">Conecta.<br>Comparte. <span class="blue">Explora.</span></h1>
+    <p class="hero-sub">Publica tus ideas, descubre contenido de otros y gestiona tu perfil desde un solo lugar.</p>
+    <div class="hero-cta">
+      <a href="/posts/" class="btn-hero primary">
+        <i class="material-icons-round">grid_view</i> Ver publicaciones
       </a>
-    </div> 
+      <a href="/posts/new/<%= userId %>" class="btn-hero secondary">
+        <i class="material-icons-round">add_circle_outline</i> Nuevo post
+      </a>
+    </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">🚀</div><div class="stat-l">Node.js</div></div>
+    <div class="stat"><div class="stat-n">🍃</div><div class="stat-l">MongoDB</div></div>
+    <div class="stat"><div class="stat-n">⚡</div><div class="stat-l">Express</div></div>
+  </div>
 </body>
 </html>

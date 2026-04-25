@@ -5,7 +5,6 @@ class PostService {
     async createPost(userId, postData) {
         const user = await userRepository.findById(userId);
         if (!user) throw new Error("Usuario no encontrado");
-
         return await postRepository.create({ ...postData, user: user._id });
     }
 
@@ -15,6 +14,19 @@ class PostService {
 
     async getPostsByUser(userId) {
         return await postRepository.findByUser(userId);
+    }
+
+    async getPostById(id) {
+        return await postRepository.findById(id);
+    }
+
+    async updatePost(id, postData) {
+        postData.updatedAt = new Date(); // actualiza el campo updatedAt
+        return await postRepository.update(id, postData);
+    }
+
+    async deletePost(id) {
+        return await postRepository.delete(id);
     }
 }
 

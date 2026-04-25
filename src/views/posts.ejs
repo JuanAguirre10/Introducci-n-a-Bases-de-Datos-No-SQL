@@ -3,58 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Social Media - Post</title>
-  <!-- Importar Materialize CSS -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
-  <!-- Iconos de Google -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <title>Social Media - Posts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#f5f4f0;--white:#ffffff;--ink:#111110;--muted:#6b6a66;
+      --accent:#2563eb;--accent-light:#eff4ff;--border:#e4e3de;
+      --shadow:0 2px 12px rgba(0,0,0,0.08);--shadow-lg:0 8px 32px rgba(0,0,0,0.12);
+    }
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+    nav{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 2.5rem;height:60px;
+      background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);
+      border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+    }
+    .nav-brand{
+      font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;
+      color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px;
+    }
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .btn-pill{
+      display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:100px;
+      font-size:0.82rem;font-weight:500;cursor:pointer;text-decoration:none;
+      border:none;transition:all 0.2s;font-family:'DM Sans',sans-serif;
+    }
+    .btn-pill.primary{background:var(--accent);color:#fff}
+    .btn-pill.primary:hover{background:#1d4ed8;transform:translateY(-1px)}
+    .page-header{
+      max-width:1100px;margin:0 auto;
+      padding:2.5rem 2rem 1rem;
+      display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+    }
+    .page-header h1{
+      font-family:'Outfit',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.04em;
+    }
+    .sub-label{font-size:0.75rem;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:6px}
+    .grid{
+      display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+      gap:1rem;padding:0 2rem 4rem;max-width:1100px;margin:0 auto;
+    }
+    .card{
+      background:var(--white);border:1px solid var(--border);border-radius:16px;
+      overflow:hidden;display:flex;flex-direction:column;
+      transition:transform 0.25s,box-shadow 0.25s;
+      animation:fadeUp 0.45s ease both;
+    }
+    .card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .card:nth-child(1){animation-delay:.05s}.card:nth-child(2){animation-delay:.12s}
+    .card:nth-child(3){animation-delay:.19s}.card:nth-child(4){animation-delay:.26s}
+    .card:nth-child(5){animation-delay:.33s}.card:nth-child(6){animation-delay:.40s}
+    .card-img{height:170px;background:#f0ede8;position:relative;overflow:hidden}
+    .card-img img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s}
+    .card:hover .card-img img{transform:scale(1.05)}
+    .card-img-placeholder{
+      width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,#f0ede8,#e8e4dd);
+    }
+    .card-img-placeholder i{font-size:2rem;color:#c4bfb6}
+    .date-badge{
+      position:absolute;top:10px;left:10px;
+      background:rgba(255,255,255,0.92);backdrop-filter:blur(6px);
+      border-radius:100px;padding:3px 10px;font-size:0.71rem;color:var(--muted);font-weight:500;
+    }
+    .card-body{padding:1.1rem;flex:1;display:flex;flex-direction:column;gap:0.6rem}
+    .card-title{
+      font-family:'Outfit',sans-serif;font-size:0.98rem;font-weight:700;
+      color:var(--ink);line-height:1.3;letter-spacing:-0.02em;
+    }
+    .card-content{
+      font-size:0.82rem;color:var(--muted);line-height:1.6;
+      display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+    }
+    .hashtags{display:flex;flex-wrap:wrap;gap:5px}
+    .chip{
+      font-size:0.72rem;font-weight:500;padding:2px 9px;border-radius:100px;
+      background:var(--accent-light);color:var(--accent);
+    }
+    .card-footer{
+      padding:0.8rem 1.1rem;border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+    .author{display:flex;align-items:center;gap:7px}
+    .avatar{
+      width:26px;height:26px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),#7c3aed);
+      display:flex;align-items:center;justify-content:center;
+      font-size:0.65rem;font-weight:700;color:#fff;font-family:'Outfit',sans-serif;
+    }
+    .author-name{font-size:0.78rem;font-weight:500}
+    .actions{display:flex;gap:3px}
+    .action-btn{
+      display:flex;align-items:center;justify-content:center;
+      width:30px;height:30px;border-radius:8px;
+      border:1px solid var(--border);background:transparent;
+      cursor:pointer;transition:all 0.2s;text-decoration:none;
+    }
+    .action-btn i{font-size:0.9rem}
+    .action-btn.edit i{color:var(--accent)}
+    .action-btn.edit:hover{background:var(--accent-light);border-color:var(--accent)}
+    .action-btn.del i{color:#dc2626}
+    .action-btn.del:hover{background:#fef2f2;border-color:#fca5a5}
+    .action-btn button{all:unset;display:flex;align-items:center;justify-content:center;width:100%;height:100%;cursor:pointer}
+    .empty{grid-column:1/-1;text-align:center;padding:4rem;color:var(--muted)}
+    .empty i{font-size:2.5rem;display:block;margin-bottom:1rem;opacity:0.4}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
 </head>
-<body class="grey lighten-4">
-
-  <!-- Navbar -->
+<body>
   <nav>
-    <div class="nav-wrapper teal">
-      <a href="#!" class="brand-logo center">Social Media</a>
-    </div>
+    <a class="nav-brand" href="/"><span class="dot"></span>Social Media</a>
+    <a href="/posts/new/<%= userId %>" class="btn-pill primary">
+      <i class="material-icons-round" style="font-size:1rem">add</i> Nuevo post
+    </a>
   </nav>
 
-  <div class="container">
-    <h4 class="center-align">Bienvenido a Social Media</h4>
+  <div class="page-header">
+    <div>
+      <div class="sub-label">Publicaciones</div>
+      <h1>Todos los posts</h1>
+    </div>
+    <span style="font-size:0.82rem;color:var(--muted)"><%= posts.length %> publicaciones</span>
+  </div>
 
-    <div class="row">
-      <!-- Card del Post -->
-      <div class="col s12 m6 l4">
-        <div class="card">
-          <div class="card-image">
-            <img src="https://media.istockphoto.com/id/627795510/photo/example.jpg?s=612x612&w=0&k=20&c=lpUf5rjPVd6Kl_M6heqC8sUncR4FLmtsRzeYdTr5X_I=" alt="Imagen del post">
+  <div class="grid">
+    <% if (posts.length === 0) { %>
+      <div class="empty">
+        <i class="material-icons-round">inbox</i>
+        <p>No hay posts aún. ¡Crea el primero!</p>
+      </div>
+    <% } %>
+
+    <% posts.forEach(post => { %>
+    <div class="card">
+      <div class="card-img">
+        <% if (post.imageUrl) { %>
+          <img src="<%= post.imageUrl %>" alt="<%= post.title %>">
+        <% } else { %>
+          <div class="card-img-placeholder">
+            <i class="material-icons-round">image_not_supported</i>
           </div>
-          <div class="card-content">
-            <span class="card-title">Título del Post</span>
-            <p>
-              Este es un ejemplo de contenido del post. Aquí puedes escribir la descripción o texto relacionado.
-            </p>
-            <p>
-              <strong>Hashtags:</strong>  
-              <span class="chip">#ejemplo</span>
-              <span class="chip">#social</span>
-              <span class="chip">#media</span>
-              <span class="chip">#práctica</span>
-              <span class="chip">#nodejs</span>
-            </p>
+        <% } %>
+        <span class="date-badge">
+          <%= post.createdAt ? new Date(post.createdAt).toLocaleDateString('es-PE') : '' %>
+        </span>
+      </div>
+      <div class="card-body">
+        <div class="card-title"><%= post.title %></div>
+        <div class="card-content"><%= post.content %></div>
+        <% if (post.hashtags && post.hashtags.length > 0) { %>
+          <div class="hashtags">
+            <% post.hashtags.forEach(tag => { %>
+              <span class="chip">#<%= tag %></span>
+            <% }) %>
           </div>
-          <div class="card-action">
-            <div class="right">
-              <a href="#!" class="btn-flat"><i class="material-icons teal-text">edit</i></a>
-              <a href="#!" class="btn-flat"><i class="material-icons red-text">delete</i></a>
-            </div>
-            <span><strong>Autor:</strong> Juan Pérez</span>
+        <% } %>
+      </div>
+      <div class="card-footer">
+        <div class="author">
+          <div class="avatar">
+            <%= post.user ? post.user.name.charAt(0) + post.user.lastName.charAt(0) : '?' %>
           </div>
+          <span class="author-name">
+            <%= post.user ? post.user.name + ' ' + post.user.lastName : 'Desconocido' %>
+          </span>
+        </div>
+        <div class="actions">
+          <a href="/posts/edit/<%= post._id %>" class="action-btn edit">
+            <i class="material-icons-round">edit</i>
+          </a>
+          <a href="/posts/delete/<%= post._id %>" class="action-btn del">
+  <i class="material-icons-round">delete</i>
+</a>
         </div>
       </div>
     </div>
+    <% }) %>
   </div>
-
-  <!-- Importar Materialize JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>

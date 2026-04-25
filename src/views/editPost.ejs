@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f5f4f0;--white:#fff;--ink:#111110;--muted:#6b6a66;--accent:#2563eb;--accent-light:#eff4ff;--border:#e4e3de;--danger:#dc2626;--shadow:0 2px 12px rgba(0,0,0,0.08)}
+    body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+    nav{display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:60px;background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+    .nav-brand{font-family:'Outfit',sans-serif;font-weight:800;font-size:1.1rem;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:8px}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+    .wrap{max-width:560px;margin:0 auto;padding:2.5rem 2rem 4rem;animation:fadeUp 0.4s ease both}
+    .breadcrumb{display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--muted);margin-bottom:1rem}
+    .breadcrumb a{color:var(--muted);text-decoration:none}.breadcrumb a:hover{color:var(--ink)}
+    .breadcrumb i{font-size:0.9rem}
+    h1{font-family:'Outfit',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:-0.03em}
+    .sub{font-size:0.85rem;color:var(--muted);margin-top:4px;margin-bottom:2rem}
+    .card{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:2rem;box-shadow:var(--shadow)}
+    .field{margin-bottom:1.4rem}
+    .field label{display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px}
+    .field label span{color:var(--danger);margin-left:2px}
+    .field input,.field textarea{
+      width:100%;padding:10px 14px;border-radius:10px;
+      border:1px solid var(--border);background:var(--bg);
+      font-family:'DM Sans',sans-serif;font-size:0.88rem;color:var(--ink);
+      transition:border-color 0.2s,box-shadow 0.2s;resize:none;outline:none;
+    }
+    .field input:focus,.field textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,0.1);background:var(--white)}
+    .field .hint{font-size:0.75rem;color:var(--muted);margin-top:5px}
+    #img-preview{
+      width:100%;height:130px;border-radius:10px;border:2px solid var(--border);
+      margin-top:8px;overflow:hidden;
+    }
+    #img-preview img{width:100%;height:100%;object-fit:cover}
+    .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+    .btn{display:flex;align-items:center;gap:6px;padding:10px 20px;border-radius:10px;font-size:0.85rem;font-weight:600;cursor:pointer;border:none;transition:all 0.2s;font-family:'Outfit',sans-serif;text-decoration:none}
+    .btn.primary{background:var(--ink);color:#fff}.btn.primary:hover{background:#222;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.15)}
+    .btn.secondary{background:transparent;color:var(--muted);border:1px solid var(--border)}.btn.secondary:hover{border-color:var(--ink);color:var(--ink)}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="nav-brand" href="/"><span class="dot"></span>Social Media</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href="/">Inicio</a><i class="material-icons-round">chevron_right</i>
+      <a href="/posts">Posts</a><i class="material-icons-round">chevron_right</i>
+      <span>Editar post</span>
+    </div>
+    <h1>Editar post</h1>
+    <p class="sub">Modifica los datos de tu publicación</p>
+
+    <div class="card">
+      <form action="/posts/edit/<%= post._id %>" method="POST">
+        <div class="field">
+          <label>Título <span>*</span></label>
+          <input type="text" name="title" value="<%= post.title %>" required>
+          <div class="hint">Entre 5 y 30 caracteres</div>
+        </div>
+        <div class="field">
+          <label>Contenido <span>*</span></label>
+          <textarea name="content" rows="4" required><%= post.content %></textarea>
+          <div class="hint">Mínimo 10 caracteres</div>
+        </div>
+        <div class="field">
+          <label>Hashtags</label>
+          <input type="text" name="hashtags" value="<%= post.hashtags ? post.hashtags.join(', ') : '' %>">
+          <div class="hint">Separados por comas</div>
+        </div>
+        <div class="field">
+          <label>URL de imagen</label>
+          <input type="text" name="imageUrl" value="<%= post.imageUrl || '' %>" oninput="previewImg(this.value)">
+          <div id="img-preview">
+            <% if (post.imageUrl) { %>
+              <img src="<%= post.imageUrl %>" alt="preview">
+            <% } %>
+          </div>
+        </div>
+        <div class="form-actions">
+          <a href="/posts" class="btn secondary"><i class="material-icons-round">arrow_back</i> Cancelar</a>
+          <button type="submit" class="btn primary"><i class="material-icons-round">check</i> Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function previewImg(url) {
+      const box = document.getElementById('img-preview');
+      if (url) {
+        box.innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.innerHTML=''">`;
+      } else {
+        box.innerHTML = '';
+      }
+    }
+  </script>
+</body>
+</html>

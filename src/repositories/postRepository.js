@@ -20,6 +20,9 @@ class PostRepository {
     async delete(postId) {
         return await Post.findByIdAndDelete(postId);
     }
+    async findById(id) {
+    return await Post.findById(id).populate("user");
+}
 }
 
 export default new PostRepository();
