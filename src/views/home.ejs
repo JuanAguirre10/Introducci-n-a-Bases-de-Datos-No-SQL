@@ -99,7 +99,7 @@
       <a href="/posts/" class="btn-hero primary">
         <i class="material-icons-round">grid_view</i> Ver publicaciones
       </a>
-      <a href="/posts/new/<%= userId %>" class="btn-hero secondary">
+      <a href="/posts/new/<%= typeof userId !== 'undefined' ? userId : '' %>" class="btn-hero secondary">
         <i class="material-icons-round">add_circle_outline</i> Nuevo post
       </a>
     </div>
